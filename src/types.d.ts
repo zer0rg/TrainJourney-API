@@ -1,25 +1,33 @@
 export type UserType = 'trainer' | 'student';
 export type GenderType = 'male' | 'female' | 'non-binary'
 
-export interface User {
+export interface UserIntf {
   id: number;
   name: string;
   email: string;
   password: string
-  role: 'trainer' | 'student'; // Discriminante
 }
 
-export interface TrainerObj extends User {
+export interface TrainerIntf extends UserIntf {
   specializations: string[]; // Campo específico para entrenadores
 }
 
-export interface Student extends User {
-  role: 'student'; // Fija el valor a "stu dent"
+export interface StudentIntf extends UserIntf {
   course: string; // Campo adicional para estudiantes
   enrollmentDate: Date; // Otro campo específico
   interests: string[];
   gender: GenderType;
-  weigth: number; 
-  heigth: number;
-  weigth_goal: number;
+  weight: number; 
+  height: number;
+  weightGoal: number;
+  trainerid: number;
+}
+
+// Modelo de Reservas (Reservations)
+interface ReservationIntf {
+  id: number;
+  trainerId: number;
+  studentId: number;
+  date: Date;
+  timeSlot: string; // Ejemplo: "08:00-09:00"
 }

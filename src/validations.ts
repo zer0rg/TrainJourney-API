@@ -1,4 +1,4 @@
-import { isAlpha, isAlphaNum, isNum } from './utils'
+import { getTimeSlot, isAlpha, isAlphaNum, isNum, isTimeSlotFormat } from './utils'
 
 export function validateName(name: string): string | boolean {
     if (typeof name !== 'string' || name.trim().length === 0 ) {
@@ -92,4 +92,13 @@ export function validateWeightGoal(weightGoal: number): string | boolean {
   return true
 }
 
-  
+export function validateTimeSlot(timeSlotStr:string): string | boolean{
+  let timeSlot: number[]
+
+  if (!isTimeSlotFormat(timeSlotStr))
+    return 'Time slot format does´t match the expected one.'
+  timeSlot = getTimeSlot(timeSlotStr)
+  if (!(timeSlot[0] < timeSlot[2] || (timeSlot[0] == timeSlot[2] && timeSlot[1] < timeSlot[3]) || timeSlot[0] == 23 && timeSlot[2] == 0))
+    return 'Invalid time slot'
+  return true
+}

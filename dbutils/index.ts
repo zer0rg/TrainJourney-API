@@ -1,5 +1,7 @@
-import { sequelize } from './connector'
-import { syncDatabase } from './dbinstaller'
+import { create } from 'domain'
+import { sequelize } from '../src/db/connector'
+import { createDatabase, syncDatabase } from './dbinstaller'
+
 async function testConnection() {
   try {
     await sequelize.authenticate()
@@ -11,6 +13,7 @@ async function testConnection() {
 
 testConnection().then( res => {
     console.log(res)
+    createDatabase()
     syncDatabase().then(res => {
         console.log(res)
     })
