@@ -1,11 +1,13 @@
+// types.d.ts
+
 export type UserType = 'trainer' | 'student';
-export type GenderType = 'male' | 'female' | 'non-binary'
+export type GenderType = 'male' | 'female' | 'non-binary';
 
 export interface UserIntf {
   id: number;
   name: string;
   email: string;
-  password: string
+  password: string;
 }
 
 export interface TrainerIntf extends UserIntf {
@@ -17,14 +19,14 @@ export interface StudentIntf extends UserIntf {
   enrollmentDate: Date; // Otro campo específico
   interests: string[];
   gender: GenderType;
-  weight: number; 
+  weight: number;
   height: number;
   weightGoal: number;
   trainerid: number;
 }
 
 // Modelo de Reservas (Reservations)
-interface ReservationIntf {
+export interface ReservationIntf {  // Agregado "export" aquí
   id: number;
   trainerId: number;
   studentId: number;
