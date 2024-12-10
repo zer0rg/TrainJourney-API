@@ -3,18 +3,18 @@
 export type UserType = 'trainer' | 'student';
 export type GenderType = 'male' | 'female' | 'non-binary';
 
-export interface UserIntf {
+export interface User {
   id: number;
   name: string;
   email: string;
   password: string;
 }
 
-export interface TrainerIntf extends UserIntf {
+export interface Trainer extends UserIntf {
   specializations: string[]; // Campo específico para entrenadores
 }
 
-export interface StudentIntf extends UserIntf {
+export interface Student extends UserIntf {
   course: string; // Campo adicional para estudiantes
   enrollmentDate: Date; // Otro campo específico
   interests: string[];
@@ -26,7 +26,7 @@ export interface StudentIntf extends UserIntf {
 }
 
 // Modelo de Reservas (Reservations)
-export interface ReservationIntf {  // Agregado "export" aquí
+export interface Reservation {  // Agregado "export" aquí
   id: number;
   trainerId: number;
   studentId: number;
