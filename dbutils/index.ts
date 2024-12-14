@@ -1,4 +1,3 @@
-import { create } from 'domain'
 import { sequelize } from '../src/db/connector'
 import { createDatabase, syncDatabase } from './dbinstaller'
 

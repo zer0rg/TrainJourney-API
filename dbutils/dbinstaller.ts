@@ -1,17 +1,32 @@
 import { DataTypes } from 'sequelize'
-import { Reservation, Trainer, Student } from '../src/db/models'
+import { Reservation, Trainer, Student, Entity } from '../src/db/models'
 import { sequelize } from '../src/db/connector'
 
 export function createDatabase()
 {
+
+Entity.init(
+  {
+    id: {type: DataTypes.STRING, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: {
+      name: 'unique_name_constraint', msg: 'The entity name provided is already in use.'
+    }}
+  },
+  {sequelize, tableName: 'entities'}
+)
 
 Trainer.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     name: { type: DataTypes.STRING, allowNull: false },
     lastName: { type: DataTypes.STRING, allowNull: false },
-    phone: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    phone: { type: DataTypes.STRING, allowNull: false, unique: {
+      name: 'unique_phone_constraint', msg: 'The phone provided is already in use'
+    }},
+    entity: { type: DataTypes.STRING, allowNull: false },
+    email: { type: DataTypes.STRING, unique: {
+      name: 'unique_email_constraint', msg: 'The email provided is already in use'
+    }, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     specializations: { type: DataTypes.JSON, allowNull: false },
     
@@ -27,7 +42,13 @@ Student.init(
   {
     id: { type: DataTypes.INTEGER,autoIncrement: true, primaryKey: true },
     name: { type: DataTypes.STRING, allowNull: false },
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    lastName: { type: DataTypes.STRING, unique: true, allowNull: false },
+    phone: { type: DataTypes.STRING, allowNull: false, unique: {
+      name: 'unique_phone_constraint', msg: 'The phone provided is already in use'
+    }},
+    email: { type: DataTypes.STRING, unique: {
+      name: 'unique_email_constraint', msg: 'The email provided is already in use'
+    }, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     course: { type: DataTypes.STRING, allowNull: false },
     enrollmentDate: { type: DataTypes.DATE, allowNull: false, defaultValue: Date },
@@ -48,10 +69,13 @@ Student.init(
 Reservation.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-    trainerId: { type: DataTypes.INTEGER, references: { model: Trainer, key: 'id' } },
-    studentId: { type: DataTypes.INTEGER, references: { model: Student, key: 'id' } },
+    trainerId: { type: DataTypes.STRING, references: { model: Trainer, key: 'id' }, allowNull: false },
+    studentId: { type: DataTypes.STRING, references: { model: Student, key: 'id' }, allowNull: false },
     date: { type: DataTypes.DATEONLY, allowNull: false },
+    serviceId: { type: DataTypes.STRING, allowNull: false },
     timeSlot: { type: DataTypes.STRING, allowNull: false },
+    limit: { type: DataTypes.INTEGER, allowNull: false },
+    type: { type: DataTypes.STRING, allowNull: false },
   },
   {
     sequelize,

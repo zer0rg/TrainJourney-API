@@ -109,6 +109,6 @@
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
   "include": [
-    "src/**/*.ts"           // Asegúrate de incluir todos los archivos TypeScript
+    "src/**/*.ts", "dbutils/**/*.ts"            // Asegúrate de incluir todos los archivos TypeScript
   ]
 }

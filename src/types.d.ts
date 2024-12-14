@@ -1,9 +1,9 @@
 export type UserType = 'trainer' | 'student';
 export type GenderType = 'male' | 'female' | 'non-binary'
 export type ReservationType = 'online' | 'onsite' | 'hybrid'
-export type FoodTYpe = 'breakfast' | 'lunch' | 'dinner'
+export type FoodType = 'breakfast' | 'lunch' | 'dinner'
 
-export interface Entity{
+export interface EntityIntf{
   id: string;
   name: string;
 }
@@ -37,12 +37,12 @@ export interface StudentIntf extends UserIntf {
 export interface ReservationIntf{
   id: number;
   type: ReservationType
-  trainerId: number;
-  studentId: number;
+  trainerId: string;
+  studentId: string;
+  serviceId: string;
   date: Date;
   timeSlot: string;
   limit: number;
-  serviceId: number;
 }
 
 // Modelos destinados a Planes de Entrenamiento
@@ -59,13 +59,13 @@ export interface TrainmentIntf{
   trainerId: string;
   name: string;
   description: string;
-  plans: ExercisePlanIntf[]; //REVISAR
+  excersisesPlans: string[]; //REVISAR
 }
 
 export interface ExercisePlanIntf{
   id: string;
+  name: string;
   exerciseId: string;
-  trainmentId: string; //REVISAR
   repetitions: number;
   series: number;
   weight: number;
