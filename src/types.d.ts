@@ -1,15 +1,25 @@
 export type UserType = 'trainer' | 'student';
 export type GenderType = 'male' | 'female' | 'non-binary'
+export type ReservationType = 'online' | 'onsite' | 'hybrid'
+export type FoodTYpe = 'breakfast' | 'lunch' | 'dinner'
+
+export interface Entity{
+  id: string;
+  name: string;
+}
 
 export interface UserIntf {
   id: number;
   name: string;
+  lastName: string;
   email: string;
-  password: string
+  password: string;
+  phone: string;
 }
 
 export interface TrainerIntf extends UserIntf {
   specializations: string[]; // Campo específico para entrenadores
+  entity: string;
 }
 
 export interface StudentIntf extends UserIntf {
@@ -24,10 +34,82 @@ export interface StudentIntf extends UserIntf {
 }
 
 // Modelo de Reservas (Reservations)
-interface ReservationIntf {
+export interface ReservationIntf{
   id: number;
+  type: ReservationType
   trainerId: number;
   studentId: number;
   date: Date;
-  timeSlot: string; // Ejemplo: "08:00-09:00"
+  timeSlot: string;
+  limit: number;
+  serviceId: number;
+}
+
+// Modelos destinados a Planes de Entrenamiento
+export interface ExcersiseIntf{
+  id: string;
+  trainerId: string;
+  name: string;
+  description: string;
+  videoUrl: string;
+}
+
+export interface TrainmentIntf{
+  id: string;
+  trainerId: string;
+  name: string;
+  description: string;
+  plans: ExercisePlanIntf[]; //REVISAR
+}
+
+export interface ExercisePlanIntf{
+  id: string;
+  exerciseId: string;
+  trainmentId: string; //REVISAR
+  repetitions: number;
+  series: number;
+  weight: number;
+  break: number;
+}
+
+export interface DailyPlan{
+  id: string;
+  trainerId: string;
+  name: string;
+  description: string;
+  trainments: TrainmentIntf[]
+}
+
+export interface Planification{
+
+}
+
+// Modelos destinados a Planes Nutricionales
+export interface RecetsIntf{
+  id: string;
+  name: string;
+  description: string; //REVISAR
+  proteins: number;
+  kcal: number;
+  videoUrl: string;
+}
+
+export interface FoodIntf{
+  id: string;
+  type: FoodTYpe;
+  nombre: string; //REVISAR
+  recets: string[];
+  extras: string[];
+  proteins: number;
+  kcal: number;
+  fats: number;
+  carbohydrates: number;
+  videoUrl: string;
+}
+
+export interface NutritionalPlanIntf{
+  id: string;
+  trainerId: string;
+  foods: string[];
+  name: string;
 }

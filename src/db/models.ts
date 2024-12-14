@@ -7,9 +7,12 @@ interface TrainerCreationAttributes extends Optional<TrainerIntf, 'id'> {}
 export class Trainer extends Model<TrainerIntf, TrainerCreationAttributes> implements TrainerIntf {
   public id!: number
   public name!: string
+  public lastName!: string
   public email!: string
+  public phone!: string
   public password!: string
   public specializations!: string[]
+  public entity!: string
   
 }
 
@@ -19,6 +22,8 @@ export class Student extends Model<StudentIntf, StudentCreationAttributes> imple
   public id!: number
   public name!: string
   public email!: string
+  public lastName!: string
+  public phone!: string
   public password!: string
   public course!: string
   public enrollmentDate!: Date

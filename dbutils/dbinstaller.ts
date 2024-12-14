@@ -9,9 +9,12 @@ Trainer.init(
   {
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     name: { type: DataTypes.STRING, allowNull: false },
+    lastName: { type: DataTypes.STRING, allowNull: false },
+    phone: { type: DataTypes.STRING, allowNull: false },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     specializations: { type: DataTypes.JSON, allowNull: false },
+    
   },
   {
     sequelize,
@@ -40,7 +43,6 @@ Student.init(
     tableName: 'students',
   }
 )
-
 
 
 Reservation.init(
@@ -73,5 +75,3 @@ export async function syncDatabase() {
     console.error('Error al sincronizar la base de datos:', err)
   }
 }
-
-
