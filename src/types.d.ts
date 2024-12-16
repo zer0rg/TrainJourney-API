@@ -4,7 +4,7 @@ export type ReservationType = 'online' | 'onsite' | 'hybrid'
 export type FoodType = 'breakfast' | 'lunch' | 'dinner'
 
 export interface EntityIntf{
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -30,16 +30,16 @@ export interface StudentIntf extends UserIntf {
   weight: number; 
   height: number;
   weightGoal: number;
-  trainerid: number;
+  trainerId: number;
 }
 
 // Modelo de Reservas (Reservations)
 export interface ReservationIntf{
   id: number;
   type: ReservationType
-  trainerId: string;
-  studentId: string;
-  serviceId: string;
+  trainerId: number;
+  studentId: number;
+  serviceId: number;
   date: Date;
   timeSlot: string;
   limit: number;
@@ -47,60 +47,79 @@ export interface ReservationIntf{
 
 // Modelos destinados a Planes de Entrenamiento
 export interface ExerciseIntf{
-  id: string;
-  trainerId: string;
+  id: number;
+  entityId: number;
   name: string;
   description: string;
   videoUrl: string;
 }
 
 export interface TrainmentIntf{
-  id: string;
-  trainerId: string;
+  id: number;
+  entityId: number;
   name: string;
   description: string;
-  ExercisesPlans: string[]; //REVISAR
+  exccersisePlansId: number[];
 }
 
 export interface ExercisePlanIntf{
-  id: string;
+  id: number;
   name: string;
-  exerciseId: string;
+  trainerId: number;
+  exerciseId: number;
   repetitions: number;
   series: number;
   weight: number;
   break: number;
 }
 
-export interface DailyPlan{
-  id: string;
-  trainerId: string;
+export interface DailyPlanIntf{
+  id: number;
+  trainerId: number;
   name: string;
   description: string;
-  trainments: TrainmentIntf[]
+  nutritionalPlanId: number;
+  trainmentsId: number;
+  planificationId: number;
 }
 
-export interface Planification{
 
+export interface PlanificationIntf{
+  id: number;
+  name: string;
+  description: string;
+  weeks: number;
+  trainerId: number;
 }
 
+export interface ClientPlanificationIntf{
+  id: number;
+  clienteId: number;
+  planificationId: number;
+  dateStart: Date;
+}
 // Modelos destinados a Planes Nutricionales
 export interface RecetsIntf{
-  id: string;
+  id: number;
   name: string;
-  trainerId: string;
+  entityId: number;
   description: string;
   proteins: number;
   kcal: number;
   videoUrl: string;
 }
 
+export interface FoodRecetsIntf{
+  id: number;
+  foodId: number;
+  recetsId: number[];
+}
+
 export interface FoodIntf{
-  id: string;
-  type: FoodTYpe;
+  id: number;
+  type: FoodType;
   nombre: string;
-  trainerId: string;
-  recets: string[];
+  entityId: number;
   extras: string[];
   proteins: number;
   kcal: number;
@@ -110,8 +129,8 @@ export interface FoodIntf{
 }
 
 export interface NutritionalPlanIntf{
-  id: string;
-  trainerId: string;
-  foods: string[];
+  id: number;
+  trainerId: number;
+  recetsFoodsId: number[];
   name: string;
 }

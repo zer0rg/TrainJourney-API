@@ -1,11 +1,11 @@
 import { Optional,Model } from 'sequelize'
-import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf } from '../types'
+import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf, DailyPlanIntf, PlanificationIntf, ClientPlanificationIntf, FoodRecetsIntf } from '../types'
 
 
 interface EntityCreationAttributes extends Optional<EntityIntf, 'id'>{}
 
 export class Entity extends Model<EntityIntf, EntityCreationAttributes> implements EntityIntf{
-  public id!: string
+  public id!: number
   public name!: string
 }
 
@@ -39,16 +39,16 @@ export class Student extends Model<StudentIntf, StudentCreationAttributes> imple
   public weight!: number
   public height!: number
   public weightGoal!: number
-  public trainerid!: number
+  public trainerId!: number
 }
 
 interface ReservationCreationAttributes extends Optional<ReservationIntf, 'id'> {}
 
 export class Reservation extends Model<ReservationIntf, ReservationCreationAttributes> implements ReservationIntf {
   public id!: number
-  public trainerId!: string
-  public studentId!: string
-  public serviceId!: string
+  public trainerId!: number
+  public studentId!: number
+  public serviceId!: number
   public type!: ReservationType
   public limit!: number
   public date!: Date
@@ -59,24 +59,24 @@ export class Reservation extends Model<ReservationIntf, ReservationCreationAttri
 // Models for Nutritional Plans
 interface RecetsCreationAttributes extends Optional<RecetsIntf, 'id'> {}
 interface FoodCreationAttributes extends Optional<FoodIntf, 'id'> {}
+interface FoodRecetsCreationAttributes extends Optional<FoodRecetsIntf, 'id'> {}
 interface NutritionalPlanCreationAttributes extends Optional<NutritionalPlanIntf, 'id'> {}
 
 export class Recets extends Model<RecetsIntf, RecetsCreationAttributes> implements RecetsIntf {
-  public id!: string
+  public id!: number
   public name!: string
   public description!: string 
-  public trainerId!: string
+  public entityId!: number
   public proteins!: number
   public kcal!: number
   public videoUrl!: string
 }
 
 export class Food extends Model<FoodIntf, FoodCreationAttributes> implements FoodIntf {
-  public id!: string
+  public id!: number
   public type!: FoodType
   public nombre!: string
-  public trainerId!: string
-  public recets!: string[]
+  public entityId!: number
   public extras!: string[]
   public proteins!: number
   public kcal!: number
@@ -84,39 +84,76 @@ export class Food extends Model<FoodIntf, FoodCreationAttributes> implements Foo
   public carbohydrates!: number
   public videoUrl!: string
 }
-
+export class FoodRecets extends Model<FoodRecetsIntf, FoodRecetsCreationAttributes> implements FoodRecetsIntf {
+  public id!: number
+  public foodId!: number
+  public recetsId!: number[]
+}
 export class NutritionalPlan extends Model<NutritionalPlanIntf, NutritionalPlanCreationAttributes> implements NutritionalPlanIntf {
-  public id!: string
-  public trainerId!: string
-  public foods!: string[]
+  public id!: number
+  public trainerId!: number
+  public recetsFoodsId!: number[]
   public name!: string
 }
 
 // Modelos destinados a Planes de Entrenamiento
-interface ExerciseCreationAttributes extends Optional<ExerciseIntf, 'id'> {}interface TrainmentCreationAttributes extends Optional<TrainerIntf, 'id'> {}interface ExercisePlanCreationAttributes extends Optional<ExercisePlanIntf, 'id'> {}
+interface ExerciseCreationAttributes extends Optional<ExerciseIntf, 'id'> {}
+interface TrainmentCreationAttributes extends Optional<TrainerIntf, 'id'> {}
+interface ExercisePlanCreationAttributes extends Optional<ExercisePlanIntf, 'id'> {}
 
 export class Exercise extends Model<ExerciseIntf, ExerciseCreationAttributes> implements ExerciseIntf{
-  public id!: string
-  public trainerId!: string
+  public id!: number
+  public entityId!: number
   public name!: string
   public description!: string
   public videoUrl!: string
 }
 
 export class Trainment extends Model<TrainmentIntf, TrainmentCreationAttributes> implements TrainmentIntf{
-  public id!: string
-  public trainerId!: string
+  public id!: number
+  public entityId!: number
   public name!: string
   public description!: string
-  public ExercisesPlans!: string[]
+  public exccersisePlansId!: number[]
 }
 
 export class ExercisePlan extends Model<ExercisePlanIntf, ExercisePlanCreationAttributes> implements ExercisePlanIntf{
-  public id!: string
+  public id!: number
   public name!: string
-  public exerciseId!: string
+  public exerciseId!: number
+  public trainerId!: number
   public repetitions!: number
   public series!: number
   public weight!: number
   public break!: number
+}
+
+interface DailyPlanCreationAttributes extends Optional<DailyPlanIntf, 'id'> {}
+interface PlanificationCreationAttributes extends Optional<PlanificationIntf, 'id'> {}
+interface ClientPlanificationCreationAttributes extends Optional<ClientPlanificationIntf, 'id'> {}
+
+export class DailyPlan extends Model<DailyPlanIntf, DailyPlanCreationAttributes> implements DailyPlanIntf{
+  public id!: number
+  public trainerId!: number
+  public name!: string
+  public description!: string
+  public nutritionalPlanId!: number
+  public trainmentsId!: number
+  public planificationId!: number
+}
+
+
+export class Planification extends Model<PlanificationIntf, PlanificationCreationAttributes> implements PlanificationIntf{
+  public id!: number
+  public name!: string
+  public description!: string
+  public weeks!: number
+  public trainerId!: number
+}
+
+export class ClientPlanification extends Model<ClientPlanificationIntf, ClientPlanificationCreationAttributes> implements ClientPlanificationIntf{
+  public id!: number
+  public clienteId!: number
+  public planificationId!: number
+  public dateStart!: Date
 }

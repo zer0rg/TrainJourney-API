@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { Reservation, Trainer, Student, Entity,Food, Exercise, ExercisePlan, Trainment, Recets, NutritionalPlan } from '../src/db/models'
+import { Reservation, Trainer, Student, Entity,Food, Exercise, ExercisePlan, Trainment, Recets, NutritionalPlan, FoodRecets, DailyPlan, ClientPlanification, Planification } from '../src/db/models'
 import { sequelize } from '../src/db/connector'
 
 export function createDatabase()
@@ -57,7 +57,7 @@ Student.init(
     weight: { type: DataTypes.FLOAT, allowNull: false },
     height: { type: DataTypes.FLOAT, allowNull: false },
     weightGoal: { type: DataTypes.FLOAT, allowNull: false },
-    trainerid: {type: DataTypes.INTEGER, allowNull: false, references: { model: Trainer, key: 'id' }}
+    trainerId: {type: DataTypes.INTEGER, allowNull: false, references: { model: Trainer, key: 'id' }}
   },
   {
     sequelize,
@@ -88,7 +88,7 @@ Recets.init(
   {
     id: { type: DataTypes.STRING, primaryKey: true },
     name: { type: DataTypes.STRING, allowNull: false },
-    trainerId: { type: DataTypes.STRING, allowNull: false },
+    entityId: { type: DataTypes.STRING, allowNull: false, references: { model: Student, key: 'id' }},
     description: { type: DataTypes.TEXT },
     proteins: { type: DataTypes.FLOAT },
     kcal: { type: DataTypes.FLOAT },
@@ -102,8 +102,7 @@ Food.init(
     id: { type: DataTypes.STRING, primaryKey: true },
     type: { type: DataTypes.ENUM('Vegetarian', 'Vegan', 'Omnivore'), allowNull: false },
     nombre: { type: DataTypes.STRING, allowNull: false },
-    trainerId: { type: DataTypes.STRING, allowNull: false },
-    recets: { type: DataTypes.ARRAY(DataTypes.STRING) },
+    entityId: { type: DataTypes.STRING, allowNull: false },
     extras: { type: DataTypes.ARRAY(DataTypes.STRING) },
     proteins: { type: DataTypes.FLOAT },
     kcal: { type: DataTypes.FLOAT },
