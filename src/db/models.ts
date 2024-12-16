@@ -1,5 +1,5 @@
 import { Optional,Model } from 'sequelize'
-import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExcersiseIntf, TrainmentIntf, ExercisePlanIntf } from '../types'
+import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf } from '../types'
 
 
 interface EntityCreationAttributes extends Optional<EntityIntf, 'id'>{}
@@ -19,7 +19,7 @@ export class Trainer extends Model<TrainerIntf, TrainerCreationAttributes> imple
   public phone!: string
   public password!: string
   public specializations!: string[]
-  public entity!: string
+  public entityId!: number
   
 }
 
@@ -64,7 +64,8 @@ interface NutritionalPlanCreationAttributes extends Optional<NutritionalPlanIntf
 export class Recets extends Model<RecetsIntf, RecetsCreationAttributes> implements RecetsIntf {
   public id!: string
   public name!: string
-  public description!: string //REVISAR
+  public description!: string 
+  public trainerId!: string
   public proteins!: number
   public kcal!: number
   public videoUrl!: string
@@ -73,7 +74,8 @@ export class Recets extends Model<RecetsIntf, RecetsCreationAttributes> implemen
 export class Food extends Model<FoodIntf, FoodCreationAttributes> implements FoodIntf {
   public id!: string
   public type!: FoodType
-  public nombre!: string //REVISAR
+  public nombre!: string
+  public trainerId!: string
   public recets!: string[]
   public extras!: string[]
   public proteins!: number
@@ -91,9 +93,9 @@ export class NutritionalPlan extends Model<NutritionalPlanIntf, NutritionalPlanC
 }
 
 // Modelos destinados a Planes de Entrenamiento
-interface ExcersiseCreationAttributes extends Optional<ExcersiseIntf, 'id'> {}interface TrainmentCreationAttributes extends Optional<TrainerIntf, 'id'> {}interface ExercisePlanCreationAttributes extends Optional<ExercisePlanIntf, 'id'> {}
+interface ExerciseCreationAttributes extends Optional<ExerciseIntf, 'id'> {}interface TrainmentCreationAttributes extends Optional<TrainerIntf, 'id'> {}interface ExercisePlanCreationAttributes extends Optional<ExercisePlanIntf, 'id'> {}
 
-export class Excersise extends Model<ExcersiseIntf, ExcersiseCreationAttributes> implements ExcersiseIntf{
+export class Exercise extends Model<ExerciseIntf, ExerciseCreationAttributes> implements ExerciseIntf{
   public id!: string
   public trainerId!: string
   public name!: string
@@ -106,7 +108,7 @@ export class Trainment extends Model<TrainmentIntf, TrainmentCreationAttributes>
   public trainerId!: string
   public name!: string
   public description!: string
-  public excersisesPlans!: string[]
+  public ExercisesPlans!: string[]
 }
 
 export class ExercisePlan extends Model<ExercisePlanIntf, ExercisePlanCreationAttributes> implements ExercisePlanIntf{

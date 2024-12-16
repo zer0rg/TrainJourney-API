@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { Reservation, Trainer, Student, Entity } from '../src/db/models'
+import { Reservation, Trainer, Student, Entity,Food, Exercise, ExercisePlan, Trainment, Recets, NutritionalPlan } from '../src/db/models'
 import { sequelize } from '../src/db/connector'
 
 export function createDatabase()
@@ -23,7 +23,7 @@ Trainer.init(
     phone: { type: DataTypes.STRING, allowNull: false, unique: {
       name: 'unique_phone_constraint', msg: 'The phone provided is already in use'
     }},
-    entity: { type: DataTypes.STRING, allowNull: false },
+    entityId: { type: DataTypes.INTEGER, allowNull: false, references: {model: Entity, key:'id'} },
     email: { type: DataTypes.STRING, unique: {
       name: 'unique_email_constraint', msg: 'The email provided is already in use'
     }, allowNull: false },
@@ -83,8 +83,93 @@ Reservation.init(
   }
 )
 
-// Relaciones entre Tablas
-Trainer.hasMany(Reservation, { foreignKey: 'trainerId' })
+// Initialize Nutritional Plan models
+Recets.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    trainerId: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT },
+    proteins: { type: DataTypes.FLOAT },
+    kcal: { type: DataTypes.FLOAT },
+    videoUrl: { type: DataTypes.STRING }
+  },
+  { sequelize, tableName: 'recets' }
+)
+
+Food.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    type: { type: DataTypes.ENUM('Vegetarian', 'Vegan', 'Omnivore'), allowNull: false },
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    trainerId: { type: DataTypes.STRING, allowNull: false },
+    recets: { type: DataTypes.ARRAY(DataTypes.STRING) },
+    extras: { type: DataTypes.ARRAY(DataTypes.STRING) },
+    proteins: { type: DataTypes.FLOAT },
+    kcal: { type: DataTypes.FLOAT },
+    fats: { type: DataTypes.FLOAT },
+    carbohydrates: { type: DataTypes.FLOAT },
+    videoUrl: { type: DataTypes.STRING }
+  },
+  { sequelize, tableName: 'foods' }
+)
+
+NutritionalPlan.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    trainerId: { type: DataTypes.STRING, allowNull: false },
+    foods: { type: DataTypes.ARRAY(DataTypes.STRING) },
+    name: { type: DataTypes.STRING, allowNull: false }
+  },
+  { sequelize, tableName: 'nutritional_plans' }
+)
+
+// Initialize Exercise models
+Exercise.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    trainerId: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT },
+    videoUrl: { type: DataTypes.STRING }
+  },
+  { sequelize, tableName: 'exercises' }
+)
+
+Trainment.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    trainerId: { type: DataTypes.STRING, allowNull: false },
+    name: { type: DataTypes.STRING, allowNull: false },
+    description: { type: DataTypes.TEXT },
+    ExercisesPlans: { type: DataTypes.ARRAY(DataTypes.STRING) }
+  },
+  { sequelize, tableName: 'trainments' }
+)
+
+ExercisePlan.init(
+  {
+    id: { type: DataTypes.STRING, primaryKey: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    exerciseId: { type: DataTypes.STRING, allowNull: false },
+    repetitions: { type: DataTypes.INTEGER },
+    series: { type: DataTypes.INTEGER },
+    weight: { type: DataTypes.FLOAT },
+    break: { type: DataTypes.INTEGER }
+  },
+  { sequelize, tableName: 'exercise_plans' }
+)
+
+
+// Relaciones Trainer
+Trainer.hasMany(Reservation, { foreignKey: 'trainerId'})
+// Relaciones Entrenador -> Ejercicio
+Trainer.hasMany(Exercise, { foreignKey: 'trainerId'})
+Trainer.hasMany(Trainment, { foreignKey: 'trainerId'})
+//Trainer.hasMany(DailyPlan, {foreignKey: 'trainerId'})
+Trainer.hasMany(NutritionalPlan, {foreignKey: 'trainerId'})
+
+Exercise.belongsTo(Trainer, { foreignKey: 'trainerId' })
 Student.hasMany(Reservation, { foreignKey: 'studentId' })
 Reservation.belongsTo(Trainer, { foreignKey: 'trainerId' })
 Reservation.belongsTo(Student, { foreignKey: 'studentId' })

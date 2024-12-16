@@ -19,7 +19,7 @@ export interface UserIntf {
 
 export interface TrainerIntf extends UserIntf {
   specializations: string[]; // Campo específico para entrenadores
-  entity: string;
+  entityId: number;
 }
 
 export interface StudentIntf extends UserIntf {
@@ -46,7 +46,7 @@ export interface ReservationIntf{
 }
 
 // Modelos destinados a Planes de Entrenamiento
-export interface ExcersiseIntf{
+export interface ExerciseIntf{
   id: string;
   trainerId: string;
   name: string;
@@ -59,7 +59,7 @@ export interface TrainmentIntf{
   trainerId: string;
   name: string;
   description: string;
-  excersisesPlans: string[]; //REVISAR
+  ExercisesPlans: string[]; //REVISAR
 }
 
 export interface ExercisePlanIntf{
@@ -88,7 +88,8 @@ export interface Planification{
 export interface RecetsIntf{
   id: string;
   name: string;
-  description: string; //REVISAR
+  trainerId: string;
+  description: string;
   proteins: number;
   kcal: number;
   videoUrl: string;
@@ -97,7 +98,8 @@ export interface RecetsIntf{
 export interface FoodIntf{
   id: string;
   type: FoodTYpe;
-  nombre: string; //REVISAR
+  nombre: string;
+  trainerId: string;
   recets: string[];
   extras: string[];
   proteins: number;
