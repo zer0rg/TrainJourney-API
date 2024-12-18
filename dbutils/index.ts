@@ -1,5 +1,5 @@
 import { sequelize } from '../src/db/connector'
-import { createDatabase, syncDatabase } from './dbinstaller'
+import { createDatabase, syncDatabase, seedDatabase } from './dbinstaller'
 
 async function testConnection() {
   try {
@@ -15,6 +15,9 @@ testConnection().then( res => {
     createDatabase()
     syncDatabase().then(res => {
         console.log(res)
+        seedDatabase().then(res => {
+          console.log(res)
+        })
     })
 }
 )
