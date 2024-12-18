@@ -1,5 +1,5 @@
 import { Optional,Model } from 'sequelize'
-import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf, DailyPlanIntf, PlanificationIntf, ClientPlanificationIntf, FoodRecetsIntf } from '../types'
+import { EntityIntf, FoodType, GenderType, ReservationIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf, DailyPlanIntf, PlanificationIntf, ClientPlanificationIntf, FoodRecetsIntf, DailyPlanJunctionIntf } from '../types'
 
 
 interface EntityCreationAttributes extends Optional<EntityIntf, 'id'>{}
@@ -18,7 +18,7 @@ export class Trainer extends Model<TrainerIntf, TrainerCreationAttributes> imple
   public email!: string
   public phone!: string
   public password!: string
-  public specializations!: string[]
+  public specializations!: string
   public entityId!: number
   
 }
@@ -34,7 +34,7 @@ export class Student extends Model<StudentIntf, StudentCreationAttributes> imple
   public password!: string
   public course!: string
   public enrollmentDate!: Date
-  public interests!: string[]
+  public interests!: string
   public gender!: GenderType
   public weight!: number
   public height!: number
@@ -87,12 +87,12 @@ export class Food extends Model<FoodIntf, FoodCreationAttributes> implements Foo
 export class FoodRecets extends Model<FoodRecetsIntf, FoodRecetsCreationAttributes> implements FoodRecetsIntf {
   public id!: number
   public foodId!: number
-  public recetsId!: number[]
+  public recetsId!: number
+  public nutritionalPlanId!: number
 }
 export class NutritionalPlan extends Model<NutritionalPlanIntf, NutritionalPlanCreationAttributes> implements NutritionalPlanIntf {
   public id!: number
   public trainerId!: number
-  public recetsFoodsId!: number[]
   public name!: string
 }
 
@@ -114,13 +114,13 @@ export class Trainment extends Model<TrainmentIntf, TrainmentCreationAttributes>
   public entityId!: number
   public name!: string
   public description!: string
-  public exccersisePlansId!: number[]
 }
 
 export class ExercisePlan extends Model<ExercisePlanIntf, ExercisePlanCreationAttributes> implements ExercisePlanIntf{
   public id!: number
   public name!: string
   public exerciseId!: number
+  public trainmentId!: number
   public trainerId!: number
   public repetitions!: number
   public series!: number
@@ -129,8 +129,15 @@ export class ExercisePlan extends Model<ExercisePlanIntf, ExercisePlanCreationAt
 }
 
 interface DailyPlanCreationAttributes extends Optional<DailyPlanIntf, 'id'> {}
+interface DailyPlanJunctionCreationAttributes extends Optional<DailyPlanJunctionIntf, 'id'> {}
 interface PlanificationCreationAttributes extends Optional<PlanificationIntf, 'id'> {}
 interface ClientPlanificationCreationAttributes extends Optional<ClientPlanificationIntf, 'id'> {}
+
+export class DailyPlanJunction extends Model<DailyPlanJunctionIntf, DailyPlanJunctionCreationAttributes> implements DailyPlanJunctionIntf{
+  public id!: number
+  public trainmentId!: number
+  public dailyPlanId!: number
+}
 
 export class DailyPlan extends Model<DailyPlanIntf, DailyPlanCreationAttributes> implements DailyPlanIntf{
   public id!: number
@@ -138,10 +145,9 @@ export class DailyPlan extends Model<DailyPlanIntf, DailyPlanCreationAttributes>
   public name!: string
   public description!: string
   public nutritionalPlanId!: number
-  public trainmentsId!: number
+  public dayn!: number
   public planificationId!: number
 }
-
 
 export class Planification extends Model<PlanificationIntf, PlanificationCreationAttributes> implements PlanificationIntf{
   public id!: number

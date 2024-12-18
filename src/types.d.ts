@@ -18,14 +18,14 @@ export interface UserIntf {
 }
 
 export interface TrainerIntf extends UserIntf {
-  specializations: string[]; // Campo específico para entrenadores
+  specializations: string; // Campo específico para entrenadores
   entityId: number;
 }
 
 export interface StudentIntf extends UserIntf {
   course: string; // Campo adicional para estudiantes
   enrollmentDate: Date; // Otro campo específico
-  interests: string[];
+  interests: string;
   gender: GenderType;
   weight: number; 
   height: number;
@@ -59,7 +59,6 @@ export interface TrainmentIntf{
   entityId: number;
   name: string;
   description: string;
-  exccersisePlansId: number[];
 }
 
 export interface ExercisePlanIntf{
@@ -71,15 +70,20 @@ export interface ExercisePlanIntf{
   series: number;
   weight: number;
   break: number;
+  trainmentId: number;
 }
-
+export interface DailyPlanJunctionIntf{
+  id: number;
+  dailyPlanId: number;
+  trainmentId: number;
+}
 export interface DailyPlanIntf{
   id: number;
   trainerId: number;
   name: string;
   description: string;
+  dayn: number;
   nutritionalPlanId: number;
-  trainmentsId: number;
   planificationId: number;
 }
 
@@ -112,7 +116,8 @@ export interface RecetsIntf{
 export interface FoodRecetsIntf{
   id: number;
   foodId: number;
-  recetsId: number[];
+  recetsId: number;
+  nutritionalPlanId: number;
 }
 
 export interface FoodIntf{
@@ -131,6 +136,5 @@ export interface FoodIntf{
 export interface NutritionalPlanIntf{
   id: number;
   trainerId: number;
-  recetsFoodsId: number[];
   name: string;
 }
