@@ -64,6 +64,10 @@ function userPosts(app : Express){
         })
         }
     )
+
+    app.post('/login' ,(req: Request, res: Response) => {
+        console.log("Hola estoy en login");
+    });
 }
   
 export function userRoutes(app: Express){
