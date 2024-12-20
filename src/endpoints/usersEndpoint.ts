@@ -1,6 +1,8 @@
 import {Express, Request, Response} from 'express'
 import { validateName, validateEmail, validatePassword, validateRole, validateSpecializations, 
     validateCourse, validateDate, validateGender, validateWeight, validateHeight, validateWeightGoal } from '../validations'
+import { Student } from '../db/models'
+import jwt from 'jsonwebtoken'
     
 function userPosts(app : Express){
     // Endpoint para registrar un usuario
@@ -65,8 +67,48 @@ function userPosts(app : Express){
         }
     )
 
-    app.post('/login' ,(req: Request, res: Response) => {
+    app.post('/login' ,async (req: Request, res: Response) => {
         console.log("Hola estoy en login");
+
+        const{email, password} = req.body;
+
+        const userExists = await Student.findOne({
+            where :{
+                email: email
+            }
+        });
+
+        if(!userExists) {
+            res.status(404).json({
+                msg: `El email o la contraseña son incorrectos`
+            });
+            return;
+
+        }
+
+        let passwordValid!: Boolean
+
+        if(password == userExists.password){
+            passwordValid = true;
+        }else{
+            passwordValid = false;
+        }
+
+        if(!passwordValid){
+            res.status(404).json({
+                msg: `El email o la contraseña son incorrectos`
+            });
+            return;
+        }
+
+        const token = jwt.sign({
+            email: email
+        }, process.env.SECRET_KEY || 'pruebatoken');
+
+        res.json({
+            token,
+            trainer: userExists.trainerId
+        })
     });
 }
   
