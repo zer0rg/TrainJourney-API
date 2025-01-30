@@ -69,12 +69,13 @@ export function validateSpecializations(specializations: string[]): string | boo
   return true
 }
 
-export function validateDate(date: string): string | boolean {
-  const isValidDate = !isNaN(Date.parse(date))
+export function validateDate(date: Date): string | boolean {
+  const now = new Date()
+  const isValidDate = date.getFullYear() == now.getFullYear() && date.getDay() == now.getDay() && date.getMonth() == now.getMonth()
   if (!isValidDate) {
-    return 'Fecha en formato inválidos.'
+    return 'La fecha de registro ha de ser la del dia en cuestión.'
   }
-  return true
+  return isValidDate
 }
 
 export function validateGender(gender: string): string | boolean {

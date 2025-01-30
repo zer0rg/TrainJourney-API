@@ -32,7 +32,7 @@ export class Student extends Model<StudentIntf, StudentCreationAttributes> imple
   public lastName!: string
   public phone!: string
   public password!: string
-  public enrollmentDate!: string
+  public enrollmentDate!: Date
   public interests!: string
   public gender!: GenderType
   public weight!: number
@@ -50,7 +50,7 @@ export class Reservation extends Model<ReservationIntf, ReservationCreationAttri
   public serviceId!: number
   public type!: ReservationType
   public limit!: number
-  public date!: string
+  public date!: Date
   public timeSlot!: string
 }
 
@@ -160,5 +160,5 @@ export class ClientPlanification extends Model<ClientPlanificationIntf, ClientPl
   public id!: number
   public clienteId!: number
   public planificationId!: number
-  public dateStart!: string
+  public dateStart!: Date
 }

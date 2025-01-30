@@ -20,5 +20,5 @@ function servicesDels(){
 }
 
 export function setServicesEndpoints(app: Express){
-    servicesGets()
+    servicesGets(app)
 }

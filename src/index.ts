@@ -9,6 +9,7 @@ dotenv.config()
 export const config: {
   DOMAIN: string;
   PORT: number;
+  CRYPT_KEY: string;
   SECRET_KEY: string;
   REFRESH_KEY: string;
   IV_LENGTH: number;
@@ -19,6 +20,7 @@ export const config: {
   DOMAIN: process.env.DOMAIN || 'http://localhost',
   PORT: process.env.PORT ? parseInt(process.env.PORT) : PORT,
   SECRET_KEY: process.env.SECRET_KEY || 'ERROR',
+  CRYPT_KEY: process.env.CRYPT_KEY || 'ERROR',
   REFRESH_KEY: process.env.REFRESH_KEY || 'ERROR',
   IV_LENGTH: process.env.IV_LENGTH ? parseInt(process.env.IV_LENGTH) : 16,
   DB_USER: process.env.DB_USER || '',

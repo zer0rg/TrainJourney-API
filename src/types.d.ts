@@ -29,7 +29,7 @@ export interface TrainerIntf extends UserIntf {
 }
 
 export interface StudentIntf extends UserIntf {
-  enrollmentDate: string; 
+  enrollmentDate: Date; 
   interests: string;
   gender: GenderType;
   weight: number; 
@@ -45,7 +45,7 @@ export interface ReservationIntf{
   trainerId: number;
   studentId: number;
   serviceId: number;
-  date: string;
+  date: Date;
   timeSlot: string;
   limit: number;
 }
@@ -106,7 +106,7 @@ export interface ClientPlanificationIntf{
   id: number;
   clienteId: number;
   planificationId: number;
-  dateStart: string;
+  dateStart: Date;
 }
 // Modelos destinados a Planes Nutricionales
 export interface RecetsIntf{
