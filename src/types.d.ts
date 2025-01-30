@@ -156,6 +156,7 @@ export interface LoginResponse {
 }
 
 
+
 //[SECURITY TYPES AND INTERFACES]
 export interface Loginfo {
   ip: string,

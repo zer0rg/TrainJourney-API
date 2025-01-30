@@ -17,7 +17,7 @@ function userPosts(app : Express){
     
         if (!validateUserData(user))
         {
-            res.json(response)
+            res.status(401).json(response)
             return
         } 
         
@@ -26,14 +26,14 @@ function userPosts(app : Express){
             const check = validateStudentData(user)
             if (check !== true){
                 response.msg = 'No pasa check'
-                res.json(response)
+                res.status(401).json(response)
                 return
             }
             user = encryptUserData(user)
             insertStudent(user).then(dbres => {
                 if (dbres !== true){
                     response.msg = 'Error en la creación: ' + dbres
-                    res.json(response)
+                    res.status(401).json(response)
                     return
                 }
             })
@@ -43,7 +43,7 @@ function userPosts(app : Express){
             const check = validateTrainerData(user)
             if (check !== true){
                 response.msg = 'No pasa check'
-                res.json(response)
+                res.status(401).json(response)
                 return
 
             }
@@ -51,7 +51,7 @@ function userPosts(app : Express){
             insertTrainer(user).then(dbres => {
                 if (dbres !== true){
                     response.msg = 'Error en la creación: ' + dbres
-                    res.json(response)
+                    res.status(401).json(response)
                     return
                 }
             })
@@ -73,13 +73,14 @@ function userPosts(app : Express){
             }, config.REFRESH_KEY || 'refresh', {expiresIn: '1d'})
     
             res.cookie('refreshToken', refreshToken)
+            res.status(200).json(user)
         }else{
-            res.json({
+            res.status(401).json({
                 result: 'KO',
                 msg: msg
             })
         }
-        })        
+        })       
     })
 
     //No usar todavía
@@ -104,7 +105,7 @@ function userPosts(app : Express){
                 accessToken: newToken
             })
         } catch (error) {
-            res.status(403).json({ msg: 'Ha expirado o invalido' })
+            res.status(401).json({ msg: 'Ha expirado o invalido' })
         }
     })
 }
