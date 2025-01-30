@@ -30,8 +30,15 @@ export async function validateLogin(user: StudentIntf | TrainerIntf): Promise<{m
 }
 
 export function validateUserData(user : TrainerIntf | StudentIntf){
-    if (!validateEmail(user.email) || !validateName(user.name) || !validateName(user.lastName) || !validatePassword(user.password))
-        return false
+
+    let check = validateEmail(user.email)
+    if (check !== true) return check
+    check = validateName(user.name)
+    if (check !== true) return check
+    check = validateName(user.lastName)
+    if (check !== true) return check
+    return validatePassword(user.password)
+    
 }
 
 export function encryptUserData<T extends StudentIntf | TrainerIntf>(user: T): T {

@@ -14,9 +14,10 @@ function userPosts(app : Express){
         let response : LoginResponse = {res: 'KO', data: null, msg: 'Revisa los datos y vuelve a intentarlo'}
        
         
-    
-        if (!validateUserData(user))
+        let check = validateUserData(user)
+        if (typeof check === 'string')
         {
+            response.msg = check
             res.status(401).json(response)
             return
         } 
@@ -72,7 +73,11 @@ function userPosts(app : Express){
                 email: user.email
             }, config.REFRESH_KEY || 'refresh', {expiresIn: '1d'})
     
-            res.cookie('refreshToken', refreshToken)
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                sameSite: 'strict',
+                secure: true
+            })
             res.status(200).json(user)
         }else{
             res.status(401).json({

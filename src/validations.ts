@@ -8,7 +8,8 @@ import { getTimeSlot, isAlpha, isAlphaNum, isNum, isTimeSlotFormat } from './uti
  * @return {*}  {(string | boolean)}
  */
 export function validateName(name: string): string | boolean {
-    if (typeof name !== 'string' || name.trim().length === 0 ) {
+    name = name.trim()
+    if (typeof name !== 'string' || name.length === 0 ) {
       return 'El nombre no puede estar vacío.'
     }
     if (!isAlpha(name))
@@ -39,16 +40,15 @@ export function validateEmail(email: string): string | boolean {
  * @return {*}  {(string | boolean)}
  */
 export function validatePassword(password: string): string | boolean {
-  const errors = []
     
   if (typeof password !== 'string') {
     return 'Invalid input.'
   }
-  if (password.length < 8) return false
-  if (!/[A-Z]/.test(password)) return false
-  if (!/[a-z]/.test(password)) return false
-  if (!/\d/.test(password)) return false
-  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return false
+  if (password.length < 8) return 'Contraseña insegura'
+  if (!/[A-Z]/.test(password)) return 'Contraseña insegura'
+  if (!/[a-z]/.test(password)) return 'Contraseña insegura'
+  if (!/\d/.test(password)) return 'Contraseña insegura'
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return 'No hay carácteres especiales'
   return true
 }
 
