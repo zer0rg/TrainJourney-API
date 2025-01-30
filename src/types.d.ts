@@ -1,7 +1,12 @@
+import { Trainer, Student } from './db/models'
+
+// [DATA STRUCTS AND DATATYPES]
 export type UserType = 'trainer' | 'student';
 export type GenderType = 'male' | 'female' | 'non-binary'
 export type ReservationType = 'online' | 'onsite' | 'hybrid'
 export type FoodType = 'breakfast' | 'lunch' | 'dinner'
+
+
 
 export interface EntityIntf{
   id: number;
@@ -13,6 +18,7 @@ export interface UserIntf {
   name: string;
   lastName: string;
   email: string;
+  role?: UserType;
   password: string;
   phone: string;
 }
@@ -23,8 +29,7 @@ export interface TrainerIntf extends UserIntf {
 }
 
 export interface StudentIntf extends UserIntf {
-  course: string; // Campo adicional para estudiantes
-  enrollmentDate: Date; // Otro campo específico
+  enrollmentDate: string; 
   interests: string;
   gender: GenderType;
   weight: number; 
@@ -40,7 +45,7 @@ export interface ReservationIntf{
   trainerId: number;
   studentId: number;
   serviceId: number;
-  date: Date;
+  date: string;
   timeSlot: string;
   limit: number;
 }
@@ -49,6 +54,7 @@ export interface ReservationIntf{
 export interface ExerciseIntf{
   id: number;
   entityId: number;
+  //trainerId: number;
   name: string;
   description: string;
   videoUrl: string;
@@ -100,7 +106,7 @@ export interface ClientPlanificationIntf{
   id: number;
   clienteId: number;
   planificationId: number;
-  dateStart: Date;
+  dateStart: string;
 }
 // Modelos destinados a Planes Nutricionales
 export interface RecetsIntf{
@@ -137,4 +143,41 @@ export interface NutritionalPlanIntf{
   id: number;
   trainerId: number;
   name: string;
+}
+
+
+//[REQUEST TYPES AND INTERFACES]
+
+export type RequestResult = 'OK' | 'KO'
+export interface LoginResponse {
+  res: RequestResult
+  msg: string,
+  data: TrainerIntf | StudentIntf | null
+}
+
+
+//[SECURITY TYPES AND INTERFACES]
+export interface Loginfo {
+  ip: string,
+  uag: string,
+  auth: boolean,
+  city: string,
+  country: string,
+  deviceId: number,
+  date: Date
+
+}
+
+export interface Devices {
+  id: number,
+  uag: string,
+  city: string,
+  country: string,
+  resfeshToken: string
+
+}
+
+export interface Blacklisted {
+  msg: string,
+  data: Trainer | Student
 }

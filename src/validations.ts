@@ -1,56 +1,70 @@
 import { getTimeSlot, isAlpha, isAlphaNum, isNum, isTimeSlotFormat } from './utils'
 
+/**
+ *
+ *
+ * @export
+ * @param {string} name
+ * @return {*}  {(string | boolean)}
+ */
 export function validateName(name: string): string | boolean {
     if (typeof name !== 'string' || name.trim().length === 0 ) {
-      return 'Name is required and must be a non-empty string.'
+      return 'El nombre no puede estar vacío.'
     }
     if (!isAlpha(name))
-        return 'Name should only contain alphabetic characters.'
+        return 'El nombre solo puede contener letras'
     return true
   }
   
+/**
+ *
+ *
+ * @export
+ * @param {string} email
+ * @return {*}  {(string | boolean)}
+ */
 export function validateEmail(email: string): string | boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (typeof email !== 'string' || !emailRegex.test(email)) {
-    return 'Invalid email format.'
+    return 'El email introducido no es válido.'
   }
   return true
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {string} password
+ * @return {*}  {(string | boolean)}
+ */
 export function validatePassword(password: string): string | boolean {
   const errors = []
     
   if (typeof password !== 'string') {
     return 'Invalid input.'
   }
-  if (password.length < 8) errors.push('Debe tener al menos 8 caracteres.')
-  if (!/[A-Z]/.test(password)) errors.push('Debe tener al menos una letra mayúscula.')
-  if (!/[a-z]/.test(password)) errors.push('Debe tener al menos una letra minúscula.')
-  if (!/\d/.test(password)) errors.push('Debe tener al menos un número.')
-  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) errors.push('Debe tener al menos un carácter especial.')
-  return errors.length === 0 ? 'Contraseña válida' : `Errores: ${errors.join(' ')}`
+  if (password.length < 8) return false
+  if (!/[A-Z]/.test(password)) return false
+  if (!/[a-z]/.test(password)) return false
+  if (!/\d/.test(password)) return false
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) return false
+  return true
 }
 
 export function validateRole(role: string): string | boolean {
   if (role !== 'trainer' && role !== 'student') {
-    return 'Role must be either \'trainer\' or \'student\'.'
+    return 'El rol tiene que ser entenador o estudiante.'
   }
   return true
 }
 
 export function validateSpecializations(specializations: string[]): string | boolean {
   if (!Array.isArray(specializations)) {
-    return 'Specializations must be an array.'
+    return 'Las especializaciones tienen que ser un array.'
   }
   if (specializations.length === 0) {
-    return 'Specializations cannot be empty.'
-  }
-  return true
-}
-
-export function validateCourse(course: string): string | boolean {
-  if (typeof course !== 'string' || course.trim().length === 0) {
-    return 'Course is required and must be a non-empty string.'
+    return 'Es necesario incluir almenos una especialización.'
   }
   return true
 }
@@ -58,7 +72,7 @@ export function validateCourse(course: string): string | boolean {
 export function validateDate(date: string): string | boolean {
   const isValidDate = !isNaN(Date.parse(date))
   if (!isValidDate) {
-    return 'Invalid date format.'
+    return 'Fecha en formato inválidos.'
   }
   return true
 }
