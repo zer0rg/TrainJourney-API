@@ -8,7 +8,9 @@ export async function validateLogin(user: StudentIntf | TrainerIntf): Promise<{m
     let dbUser: Student | Trainer | null
 
     if(!validateEmail(user.email)){
+        console.log('email error')
         return { msg: 'Datos de acceso erróneos.', user:null}
+    
     }
     if (user.role === 'student'){
         dbUser = await Student.findOne({where: {
@@ -19,13 +21,18 @@ export async function validateLogin(user: StudentIntf | TrainerIntf): Promise<{m
             email: hashString(user.email)
         }})
     }else{
+        console.log('role error')
+
         return { msg: 'Datos de acceso erróneos.', user:null}
     }
     if (dbUser && user.password === decryptStr(dbUser.password)){
         return { msg: 'Sesión iniciada exitósamente', user:dbUser.dataValues}
     }
-    else
+    else{
+        console.log('no match error')
         return { msg: 'Datos de acceso erróneos.', user:null}
+    }
+        
 
 }
 
@@ -55,7 +62,6 @@ export function encryptUserData<T extends StudentIntf | TrainerIntf>(user: T): T
 export function decryptUserData<T extends StudentIntf | TrainerIntf>(user: T): T {
     user.name = decryptStr(user.name)
     user.lastName = decryptStr(user.lastName)
-    user.phone = decryptStr(user.phone)
     user.phone = decryptStr(user.phone)
     user.password = decryptStr(user.password)
 

@@ -14,11 +14,13 @@ export function createDatabase()
           name: 'Nombre duplicado', msg: 'Esta empresa ya está regiistrada.'
         }
       },
-      uuid:  {
+      uuid: {
         type: DataTypes.STRING, allowNull: false, unique: {
-          name:'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
+          name: 'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
         }
-    }}, { sequelize })
+      },
+      excersiseTags: ''
+    }, { sequelize })
   
     Trainer.init({
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
@@ -144,7 +146,14 @@ export function createDatabase()
       entityId: { type: DataTypes.INTEGER, allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
-      videoUrl: { type: DataTypes.STRING, allowNull: false }
+      videoUrl: { type: DataTypes.STRING, allowNull: false },
+      imgUrl: '',
+      muscle_principal: '',
+      equipment: '',
+      movement: '',
+      level: '',
+      speciality: '',
+      mecanic: ''
     }, { sequelize })
   
     Trainment.init({
@@ -257,12 +266,15 @@ export async function seedDatabase() {
     // Crear entidades
     const entity1 = await Entity.create({
       name: 'Gym Elite',
-      uuid: generateUuid(null)
+      uuid: generateUuid(null),
+      excersiseTags: []
     })
     
     const entity2 = await Entity.create({
       name: 'Fitness Pro',
-      uuid: generateUuid(null)
+      uuid: generateUuid(null),
+      excersiseTags: []
+
     })
 
     // Crear entrenadores
@@ -446,14 +458,28 @@ export async function seedDatabase() {
       entityId: entity1.id,
       name: 'Flexiones',
       description: 'Ejercicio básico de fuerza',
-      videoUrl: 'https://example.com/flexiones'
+      videoUrl: 'https://example.com/flexiones',
+      imgUrl: 'https://example.com/flexiones',
+      muscle_principal: muscles[3],
+      equipment: equipment[4],
+      movement: 'test',
+      level: 'test',
+      speciality: 'test',
+      mecanic: 'test'
     })
 
     const exercise2 = await Exercise.create({
       entityId: entity2.id,
       name: 'Sentadillas',
       description: 'Ejercicio para piernas y glúteos',
-      videoUrl: 'https://example.com/sentadillas'
+      videoUrl: 'https://example.com/sentadillas',
+      imgUrl: 'https://example.com/sentadillas',
+      muscle_principal: muscles[1],
+      equipment: equipment[7],
+      movement: 'test',
+      level: 'test',
+      speciality: 'test',
+      mecanic: 'test'
     })
 
     // Crear entrenamientos

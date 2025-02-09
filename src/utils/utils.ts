@@ -37,7 +37,9 @@ export function encryptStr(str: string): string{
 
 export function decryptStr(encryptedData: string): string {
   const [iv, encryptedText] = encryptedData.split(':').map(part => Buffer.from(part, 'base64'))
-  const encryptionKey = Buffer.from(config.CRYPT_KEY, 'base64') // Clave en formato Buffer
+
+  const encryptionKey = Buffer.from(config.CRYPT_KEY, 'utf8') // Clave en formato Buffer
+  console.log('key:', encryptionKey)
   const decipher = crypto.createDecipheriv('aes-256-cbc', encryptionKey, iv)
   let decrypted = decipher.update(encryptedText, undefined, 'utf8')
   

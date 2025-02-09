@@ -117,6 +117,7 @@ export interface DailyPlanJunctionIntf{
   dailyPlanId: number;
   trainmentId: number;
 }
+
 export interface DailyPlanIntf{
   id: number;
   trainerId: number;
