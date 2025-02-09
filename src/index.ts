@@ -45,10 +45,10 @@ try {
 app.use(cors(), express.json())
 
 
-connectMongo().then((mongoCon) => {
+//connectMongo().then((mongoCon) => {
 
   setEndpoints(app, mongoCon)
-})
+//})
 
 
 app.listen(config.PORT, () => {
