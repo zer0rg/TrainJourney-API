@@ -1,8 +1,7 @@
 import { Student } from './models'
-import { sequelize } from './connector'
-import { StudentIntf, TrainerIntf } from '../types'
-import { validateName, validateEmail, validatePassword, validateDate, validateGender, validateWeight, validateHeight } from '../validations'
-import { encryptStr, decryptStr, hashString } from '../utils'
+import { QueryResponse, StudentIntf, TrainerIntf } from '../types'
+import { validateDate, validateGender, validateWeight, validateHeight } from '../utils/validations'
+import { queryErrorHandler } from '../utils/errorHanlder'
 
 export function getStudentById(id: number)
 {
@@ -17,13 +16,12 @@ export function getStudentById(id: number)
 } */
 
 
-export async function insertStudent(student: StudentIntf) : Promise<unknown> {
-
+export async function insertStudent(student: StudentIntf) : Promise<QueryResponse>{
     try {
-        await Student.create(student)
-        return true
+        const res = await Student.create(student)
+        return {data: res, done: true, msg: 'Estudiante creado exitosamente'}
     } catch (error) {
-        return error
+        return queryErrorHandler(error)
     }
 }
 

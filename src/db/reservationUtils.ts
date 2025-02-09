@@ -1,59 +1,67 @@
 import { Reservation } from './models'
 import { sequelize } from './connector'
+import { queryErrorHandler } from '../utils/errorHanlder'
+import { QueryResponse, ReservationIntf } from '../types'
 
-export async function getReservationsByDate(trainerId: string, date: Date): Promise<Reservation[]> {
+type arrayReservationsReturn = Promise<{data: ReservationIntf[] | null , output: string}>
+
+export async function getReservationsByDate(trainerId: string, date: Date): Promise<QueryResponse> {
     try {
       const reservations = await Reservation.findAll({
         where: {
           date: date.toDateString(), 
           trainerId,
         },
+        raw: true
       })
-      return reservations 
+      return {data: reservations, done: true, msg: 'Consulta existosa de reservas'}
+
     } catch (error) {
-      console.error('Error getting Reservation:', error)
-      throw error
+      return queryErrorHandler(error)
     }
 }
 
-export async function getAllTrainerReservations(trainerId: string): Promise<Reservation[]> {
+export async function getAllTrainerReservations(trainerId: string): Promise<QueryResponse> {
     try {
       const reservations = await Reservation.findAll({
         where: {
           trainerId,
         },
+        raw: true
       })
-      return reservations 
+      return {data: reservations, done: true, msg: 'Consulta existosa de reservas'}
+
     } catch (error) {
-      console.error('Error getting Reservation:', error)
-      throw error
+      return queryErrorHandler(error)
     }
 }
-export async function getAllStudentReservations(studentId: string): Promise<Reservation[]> {
+export async function getAllStudentReservations(studentId: string): Promise<QueryResponse> {
     try {
       const reservations = await Reservation.findAll({
         where: {
             studentId,
         },
+        raw: true
       })
-      return reservations 
+      return {data: reservations, done: true, msg: 'Consulta existosa de reservas'}
+
     } catch (error) {
-      console.error('Error getting Reservation:', error)
-      throw error
+      return queryErrorHandler(error)
     }
 }
 
-export async function getStudentReservationsByDate(studentId: string, date:Date): Promise<Reservation[]> {
+export async function getStudentReservationsByDate(studentId: string, date:Date): Promise<QueryResponse> {
     try {
       const reservations = await Reservation.findAll({
         where: {
             date: date.toDateString(),
             studentId,
-        },
+        }, raw: true
       })
-      return reservations 
+     
+      return {data: reservations, done: true, msg: 'Consulta existosa de reservas'}
+
     } catch (error) {
-      console.error('Error getting Reservation:', error)
-      throw error
+      return queryErrorHandler(error)
     }
 }

@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import {config} from './index'
+import {config} from '../index'
 
 export function isAlpha(str: string): boolean {
   return /^\p{L}*$/u.test(str)
@@ -43,4 +43,12 @@ export function decryptStr(encryptedData: string): string {
   
   decrypted += decipher.final('utf8')
   return decrypted
+}
+
+export function numberNotNull(num: number): boolean {
+	return num !== undefined && num !== null
+}
+
+export function stringNotNull(str: string): boolean {
+	return str !== undefined && str !== null && str.trim() !== ''
 }

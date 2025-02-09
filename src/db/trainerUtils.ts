@@ -1,22 +1,30 @@
-import { StudentIntf, TrainerIntf } from '../types'
+import { QueryResponse, StudentIntf, TrainerIntf } from '../types'
+import { queryErrorHandler } from '../utils/errorHanlder'
 import { Trainer } from './models'
 
 export async function getTrainerById(id: number)
 {
-    return await Trainer.findByPk(id)
+    return await Trainer.findByPk(id,  { raw: true})
 }
 
 export async function getEntityTrainers(entityId: number){
-    return await Trainer.findAll({where: {entityId}})
+    try {
+    const trainers = await Trainer.findAll({where: {entityId}, raw: true})
+    return {data: trainers, done: true, msg: 'Consulta existosa de reservas'}
+
+} catch (error) {
+  return queryErrorHandler(error)
+}    
 }
 
-export async function insertTrainer(trainer: TrainerIntf) : Promise<unknown> {
+export async function insertTrainer(trainer: TrainerIntf) : Promise<QueryResponse> {
 
     try {
-        await Trainer.create(trainer)
-        return true
+        await Trainer.create(trainer, { raw: true})
+        return {data: trainer, done: true, msg: 'Consulta existosa de reservas'}
+
     } catch (error) {
-        return error
+      return queryErrorHandler(error)
     }
 }
 

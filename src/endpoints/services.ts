@@ -7,10 +7,11 @@ function servicesGets(app: Express){
     })
 }
 
-function servicesPosts(){
-
+function servicesPosts(app: Express){
+    app.post('servicios/create', () => {
+        
+    })
 }
-
 function servicesPuts(){
 
 }

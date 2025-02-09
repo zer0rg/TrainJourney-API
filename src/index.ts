@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express'
 import cors from 'cors'
 import { setEndpoints } from './endpoints/endpoints'
 import dotenv from 'dotenv'
+import { createDatabase } from '../dbutils/dbinstaller'
+import { connectMongo } from './db/connector'
 
 const app = express()
 const PORT = 3000
@@ -32,15 +34,23 @@ if (!config.SECRET_KEY) {
   console.error('No se ha definido la variable de entorno CRYPT_KEY')
   process.exit(1)
 }
-// Middleware para parsear JSON
+
+try {
+  createDatabase()
+} catch (error) {
+  console.error(error)
+}
+
+
 app.use(cors(), express.json())
 
 
+connectMongo().then((mongoCon) => {
 
-setEndpoints(app)
+  setEndpoints(app, mongoCon)
+})
 
 
-// Iniciar el servidor
 app.listen(config.PORT, () => {
   console.log(`Servidor corriendo en ${config.DOMAIN}:${config.PORT}`)
 })

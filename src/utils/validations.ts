@@ -9,7 +9,7 @@ import { getTimeSlot, isAlpha, isAlphaNum, isNum, isTimeSlotFormat } from './uti
  */
 export function validateName(name: string): string | boolean {
     name = name.trim()
-    if (typeof name !== 'string' || name.length === 0 ) {
+    if (name && typeof name !== 'string' || name.length === 0 ) {
       return 'El nombre no puede estar vacío.'
     }
     if (!isAlpha(name))

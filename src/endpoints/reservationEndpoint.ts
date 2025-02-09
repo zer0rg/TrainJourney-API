@@ -2,7 +2,6 @@ import { Express, Request, Response } from 'express'
 
 function reservationsPosts(app : Express)
 {
-    // Endpoint para crear una nueva reserva
     app.post('/reservations', async (req: Request, res: Response) => {
         const { trainerId, studentId, date, timeSlot } = req.body
         
@@ -20,7 +19,6 @@ function reservationsPosts(app : Express)
 
 function reservationsGets(app : Express)
 {
-    // Endpoint para obtener todas las reservas
     app.get('/reservations', async (req: Request, res: Response) => {
         const reservvations = ''
         try {
@@ -31,7 +29,6 @@ function reservationsGets(app : Express)
         }
     })
   
-    // Endpoint para obtener una reserva específica por ID
     app.get('/reservations/:id', async (req: Request, res: Response) => {
         const { id } = req.params
         let reservation: string = ''
@@ -51,7 +48,6 @@ function reservationsGets(app : Express)
   })
 }
 function reservationsPuts(app: Express){
-    // Endpoint para actualizar una reserva
     app.put('/reservations/:id', async (req: Request, res: Response) => {
       const { id } = req.params
       const { trainerId, studentId, date, timeSlot } = req.body
@@ -71,7 +67,6 @@ function reservationsPuts(app: Express){
 }
 
 function reservationsDeletes(app: Express){
-  // Endpoint para eliminar una reserva
   app.delete('/reservations/:id', async (req: Request, res: Response) => {
     const { id } = req.params
 

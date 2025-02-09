@@ -1,6 +1,6 @@
 import { StudentIntf, TrainerIntf } from '../types'
-import { decryptStr, encryptStr, hashString } from '../utils'
-import { validateEmail, validateName, validatePassword } from '../validations'
+import { decryptStr, encryptStr, hashString } from '../utils/utils'
+import { validateEmail, validateName, validatePassword } from '../utils/validations'
 import { Student, Trainer } from './models'
 
 export async function validateLogin(user: StudentIntf | TrainerIntf): Promise<{msg:string, user: TrainerIntf|StudentIntf|null }>{
@@ -66,5 +66,5 @@ export function isStudent(user: TrainerIntf | StudentIntf): user is StudentIntf 
 }
 
 export function isTrainer(user: TrainerIntf | StudentIntf): user is TrainerIntf {
-    return user.role === 'student'
+    return user.role === 'trainer'
 }
