@@ -46,7 +46,7 @@ app.use(cors(), express.json())
 
 
 //connectMongo().then((mongoCon) => {
-
+const mongoCon = null
   setEndpoints(app, mongoCon)
 //})
 
