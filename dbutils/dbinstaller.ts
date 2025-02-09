@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize'
 import { Reservation, Trainer, Student, Entity,Food, Exercise, ExercisePlan, Trainment, Recets, NutritionalPlan, FoodRecets, DailyPlan, ClientPlanification, Planification, DailyPlanJunction, Service } from '../src/db/models'
 import { sequelize } from '../src/db/connector'
 import { generateUuid } from '../src/utils/security'
+import { equipment, muscles } from '../src/constants'
 
 export function createDatabase()
 {
@@ -19,7 +20,7 @@ export function createDatabase()
           name: 'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
         }
       },
-      excersiseTags: ''
+      excersiseTags: {type: DataTypes.JSON, allowNull: false,  }
     }, { sequelize })
   
     Trainer.init({
@@ -147,13 +148,13 @@ export function createDatabase()
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
       videoUrl: { type: DataTypes.STRING, allowNull: false },
-      imgUrl: '',
-      muscle_principal: '',
-      equipment: '',
-      movement: '',
-      level: '',
-      speciality: '',
-      mecanic: ''
+      imgUrl: { type: DataTypes.STRING, allowNull: false },
+      muscle_principal: { type: DataTypes.STRING, allowNull: false },
+      equipment: { type: DataTypes.STRING, allowNull: false },
+      movement: { type: DataTypes.STRING, allowNull: false },
+      level: { type: DataTypes.STRING, allowNull: false },
+      speciality: { type: DataTypes.STRING, allowNull: false },
+      mecanic: { type: DataTypes.STRING, allowNull: false }
     }, { sequelize })
   
     Trainment.init({

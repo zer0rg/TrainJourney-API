@@ -1,4 +1,4 @@
-const muscles = [
+export const muscles = [
     'Pecho',
     'Espalda',
     'Trapecios',
@@ -43,7 +43,7 @@ const muscles = [
     'Muñeca'
 ]
 
-const equipment = [
+export const equipment = [
     'Mancuernas',
     'Barras',
     'Pesas',
