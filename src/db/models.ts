@@ -1,13 +1,14 @@
 import { Optional,Model, Association } from 'sequelize'
-import { EntityIntf, FoodType, GenderType, ReservationIntf, ServiceIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf, DailyPlanIntf, PlanificationIntf, ClientPlanificationIntf, FoodRecetsIntf, DailyPlanJunctionIntf } from '../types'
+import { EntityIntf, FoodType, GenderType, ReservationIntf, ServiceIntf, ReservationType, StudentIntf, TrainerIntf, FoodIntf, RecetsIntf, NutritionalPlanIntf, ExerciseIntf, TrainmentIntf, ExercisePlanIntf, DailyPlanIntf, PlanificationIntf, ClientPlanificationIntf, FoodRecetsIntf, DailyPlanJunctionIntf, UserType } from '../types'
 
 
 interface EntityCreationAttributes extends Optional<EntityIntf, 'id'>{}
 
 export class Entity extends Model<EntityIntf, EntityCreationAttributes> implements EntityIntf{
-  declare excersiseTags: string[]
   declare id: number
   declare name: string
+  declare defaultTrainerId: number
+  declare excersiseTags: string[]
   declare uuid: string
 }
 
@@ -15,6 +16,10 @@ interface TrainerCreationAttributes extends Optional<TrainerIntf, 'id'> {}
 
 export class Trainer extends Model<TrainerIntf, TrainerCreationAttributes> implements TrainerIntf {
   declare id: number
+  declare excersiseTags?: string[] | undefined
+  declare resetPassword: boolean
+  declare isAdmin: boolean
+  declare role?: UserType | undefined
   declare uuid: string
   declare name: string
   declare lastName: string
@@ -135,7 +140,7 @@ export class Exercise extends Model<ExerciseIntf, ExerciseCreationAttributes> im
   declare speciality: string
   declare mecanic: string
   declare id: number
-  declare entityId: number
+  declare trainerId: number
   declare name: string
   declare description: string
   declare videoUrl: string

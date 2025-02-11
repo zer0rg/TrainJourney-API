@@ -20,7 +20,8 @@ export function createDatabase()
           name: 'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
         }
       },
-      excersiseTags: {type: DataTypes.JSON, allowNull: false,  }
+      excersiseTags: { type: DataTypes.JSON, allowNull: false, },
+      defaultTrainerId: { type: DataTypes.INTEGER, allowNull: true} //CREAR RELACIÓN 
     }, { sequelize })
   
     Trainer.init({
@@ -39,10 +40,14 @@ export function createDatabase()
       },
       password: { type: DataTypes.STRING, allowNull: false },
       specializations: { type: DataTypes.JSON, allowNull: false },
-      entityId: { type: DataTypes.INTEGER, allowNull: false },
-      uuid: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, unique:{
-        name:'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
-      }}
+      entityId: { type: DataTypes.INTEGER, allowNull: true },
+      uuid: {
+        type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, allowNull: false, unique: {
+          name: 'Id duplicado', msg: 'Ha habido un error en la creación, reintenta el proceso o contacta con el servicio de ayuda si el error persiste.'
+        }
+      },
+      isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
+      resetPassword: { type: DataTypes.BOOLEAN, defaultValue: false }
     }, { sequelize })
   
     Student.init({
@@ -144,7 +149,7 @@ export function createDatabase()
   
     Exercise.init({
       id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
-      entityId: { type: DataTypes.INTEGER, allowNull: false },
+      trainerId: { type: DataTypes.INTEGER, allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: false },
       videoUrl: { type: DataTypes.STRING, allowNull: false },
@@ -210,15 +215,15 @@ export function createDatabase()
     //Entity Relations
     Entity.hasMany(Trainer, { foreignKey: 'entityId' })
     Entity.hasMany(Student, {foreignKey: 'entityId'})
-    Entity.hasMany(Exercise, {foreignKey: 'entityId'})
     Entity.hasMany(Recets, {foreignKey: 'entityId'})
-
+    
     Trainer.hasMany(Student, { foreignKey: 'trainerId', as: 'students' })
     Trainer.hasMany(Reservation, { foreignKey: 'trainerId' })
     Trainer.hasMany(ExercisePlan, { foreignKey: 'trainerId' })
     Trainer.hasMany(NutritionalPlan, { foreignKey: 'trainerId' })
     Trainer.hasMany(DailyPlan, { foreignKey: 'trainerId', as: 'dailyPlans' })
     Trainer.belongsTo(Entity, { foreignKey: 'entityId' })
+    Trainer.hasMany(Exercise, {foreignKey: 'entityId'})
     
     
 
@@ -232,7 +237,7 @@ export function createDatabase()
     Reservation.belongsTo(Trainer, { foreignKey: 'trainerId' })
     
     //Ejercicios, Planes de Ejercicios, Entrenamientos
-    Exercise.belongsTo(Entity, {foreignKey: 'entityId'})
+    Exercise.belongsTo(Trainer, {foreignKey: 'trainerId'})
 
     ExercisePlan.belongsTo(Trainment, {foreignKey: 'trainmentId'})
 
@@ -268,17 +273,19 @@ export async function seedDatabase() {
     const entity1 = await Entity.create({
       name: 'Gym Elite',
       uuid: generateUuid(null),
-      excersiseTags: []
+      excersiseTags: [],
+      
     })
-    
+
     const entity2 = await Entity.create({
       name: 'Fitness Pro',
       uuid: generateUuid(null),
-      excersiseTags: []
-
+      excersiseTags: [],
+      
     })
 
-    // Crear entrenadores
+
+    // Trainers
     const trainer1 = await Trainer.create({
       name: 'John',
       lastName: 'Doe',
@@ -286,8 +293,10 @@ export async function seedDatabase() {
       phone: '123456789',
       password: 'password123',
       specializations: JSON.stringify(['Cardio', 'Strength']),
-      entityId: entity1.id,
-      uuid: generateUuid(null)
+      entityId: null,
+      uuid: generateUuid(null),
+      isAdmin: false,
+      resetPassword: false
     })
 
     const trainer2 = await Trainer.create({
@@ -297,10 +306,16 @@ export async function seedDatabase() {
       phone: '987654321',
       password: 'password456',
       specializations: JSON.stringify(['Yoga', 'Pilates']),
-      entityId: entity2.id,
-      uuid: generateUuid(null)
+      entityId: null,
+      uuid: generateUuid(null),
+      isAdmin: false,
+      resetPassword: false
     })
 
+    entity1.update({defaultTrainerId: trainer1.id}, )
+    entity2.update({defaultTrainerId: trainer2.id}, )
+
+    
     // Crear estudiantes
     const student1 = await Student.create({
       name: 'Alice',
@@ -456,7 +471,7 @@ export async function seedDatabase() {
 
     // Crear ejercicios
     const exercise1 = await Exercise.create({
-      entityId: entity1.id,
+      trainerId: trainer1.id,
       name: 'Flexiones',
       description: 'Ejercicio básico de fuerza',
       videoUrl: 'https://example.com/flexiones',
@@ -470,7 +485,7 @@ export async function seedDatabase() {
     })
 
     const exercise2 = await Exercise.create({
-      entityId: entity2.id,
+      trainerId: trainer2.id,
       name: 'Sentadillas',
       description: 'Ejercicio para piernas y glúteos',
       videoUrl: 'https://example.com/sentadillas',

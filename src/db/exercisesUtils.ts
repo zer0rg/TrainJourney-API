@@ -23,10 +23,10 @@ export async function getExerciseById(id: number)
  * @param {number} entityId
  * @return {*} 
  */
-export async function getEntityExercises(entityId: number){
+/* export async function getEntityExercises(entityId: number){
     return await Exercise.findAll({where: {entityId}})
 }
-
+ */
 /* export async function getTrainerExercises(trainerId: number){
     return await Exercise. findAll({where: {trainerId}})
 } */
@@ -45,8 +45,7 @@ export async function createExcersise(exercise: ExerciseIntf) : Promise<QueryRes
 
 function validateExerciseParams(exercise: ExerciseIntf): boolean | string {
     if (!stringNotNull(exercise.name)) return 'El nombre no puede estar vacío'
-    if (!stringNotNull(exercise.description)) return 'La descripción no puede estar vacía'
-    if (!stringNotNull(exercise.videoUrl)) return 'La url del video no puede estar vacía'
-    if (!numberNotNull(exercise.entityId)) return 'El id de la entidad no puede estar vacío'
+    if (!numberNotNull(exercise.trainerId)) return 'El id del entrenador no puede estar vacío'
     return true
 }
+

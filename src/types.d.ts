@@ -12,6 +12,7 @@ export interface EntityIntf{
   id: number;
   name: string;
   uuid: string;
+  defaultTrainerId?: number;
   excersiseTags: string [];
 }
 
@@ -28,7 +29,9 @@ export interface UserIntf {
 
 export interface TrainerIntf extends UserIntf {
   specializations: string; // Campo específico para entrenadores
-  entityId: number;
+  entityId: number | null;
+  isAdmin: boolean;
+  resetPassword: boolean;
   dailyPlans?: DailyPlanIntf[];
   excersiseTags?: string [];
 }
@@ -77,8 +80,8 @@ export interface ReservationIntf{
 // Modelos destinados a Planes de Entrenamiento
 export interface ExerciseIntf{
   id: number;
-  entityId: number;
-  //trainerId: number;
+  //entityId: number;
+  trainerId: number;
   name: string;
   description: string;
   videoUrl: string;
@@ -226,7 +229,7 @@ export type RequestResult = 'OK' | 'KO'
 export interface QueryResponse {
   done: boolean,
   msg: string,
-  data: TrainerIntf | StudentIntf | ReservationIntf | TrainmentIntf  | ServiceIntf | RecetsIntf | DailyPlanIntf | FoodIntf | number | null | TrainerIntf[] | StudentIntf[] | ReservationIntf[] | ServiceIntf[] | RecetsIntf[] | FoodIntf[] | DailyPlanIntf[] | TrainmentIntf[]
+  data: TrainerIntf | StudentIntf | ReservationIntf | TrainmentIntf  | ServiceIntf | RecetsIntf | DailyPlanIntf | FoodIntf | ExerciseIntf | number | null | TrainerIntf[] | StudentIntf[] | ReservationIntf[] | ServiceIntf[] | RecetsIntf[] | FoodIntf[] | DailyPlanIntf[] | TrainmentIntf[] | ExerciseIntf[]
 }
 
 
